@@ -4,19 +4,27 @@ Platform independent c++ library providing ftp client functionality.
 
 ftplibpp contains a c++ class providing ftp client functionality. It supports all basic ftp functionality plus some advanced features like resuming, fxp, ssl/tls encryption, large file support, or logging to fit todays standards.
 
-## Build
+## Build & Install
 
-### Docker (Linux)
+### Docker 
 
 ```
 docker build -t build-env .
 docker run -e -v $PWD:/src -w /src build-env make
 ```
 
+### Linux
+
+```
+make
+sudo make install
+make clean
+```
+
 ### MacOS without SSL
 
 ```
-NOSSL=1 make
+SSL=1 make
 ```
 
 ## Documentation

@@ -10,11 +10,12 @@ SOURCES = ftplib.cpp
 CFLAGS = -Wall $(DEBUG) -I. $(INCLUDES) $(DEFINES)
 LDFLAGS = -L.
 DEPFLAGS =
+INSTALL_PREFIX=/usr
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
 	SOFLAG=install_name
-	ifndef NOSSL
+	ifdef SSL
 		LIBS = -lssl -lcrypto
 	else
 		LIBS =
@@ -22,7 +23,7 @@ ifeq ($(UNAME), Darwin)
 endif
 ifeq ($(UNAME), Linux)
 	SOFLAG=soname
-	ifndef NOSSL
+	ifdef SSL
 		LIBS = -lssl
 	else
 		LIBS =
@@ -38,13 +39,13 @@ clean :
 	rm -f libftp.so.*
 
 uninstall :
-	rm -f /usr/local/lib/libftp.so.*
-	rm -f /usr/local/include/libftp.h
+	rm -f $(INSTALL_PREFIX)/lib/libftp.so.*
+	rm -f $(INSTALL_PREFIX)/include/libftp.h
 
 install : all
-	install -m 644 libftp.so.$(SOVERSION) /usr/local/lib
-	install -m 644 ftplib.h /usr/local/include
-	(cd /usr/local/lib && \
+	install -m 644 libftp.so.$(SOVERSION) $(INSTALL_PREFIX)/lib
+	install -m 644 ftplib.h $(INSTALL_PREFIX)/include
+	(cd $(INSTALL_PREFIX)/lib && \
 	 ln -sf libftp.so.$(SOVERSION) libftp.so.$(SONAME) && \
 	 ln -sf libftp.so.$(SONAME) libftp.so)
 
